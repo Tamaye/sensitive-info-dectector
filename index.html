@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sensitive Info Detector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="brand">
+            <h1>Sensitive Info Detector</h1>
+        </div>
+        <p class="subtitle">AI-powered privacy protection for leaked images</p>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
+            <span class="theme-icon" id="theme-icon">🌙</span>
+        </button>
+    </header>
+
+    <main>
+        <section class="upload-section">
+            <div class="upload-card">
+                <label for="image-upload" class="custom-file-upload">
+                    <input id="image-upload" type="file" accept="image/*" />
+                    <span>Upload Image</span>
+                </label>
+                <div id="preview-container" class="preview-container">
+                    <img id="image-preview" src="" alt="Image Preview" style="display:none" />
+                </div>
+                <button id="analyze-btn" class="analyze-btn" disabled>Analyze for Sensitive Info</button>
+
+                <section id="result-section" class="result-section" style="display:none;">
+                    <div class="result-card">
+                        <h2>Results</h2>
+                        <div id="result-content" class="result-content"></div>
+                        <button id="reset-btn" class="reset-btn">Analyze Another Image</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>&copy; 2025 Sensitive Info Detector. Powered by AI.</span>
+    </footer>
+
+    <!-- Puter.js SDK -->
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="app.js"></script>
+    <script>
+    // Light/dark mode toggle logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const htmlTag = document.documentElement;
+
+    function setTheme(theme) {
+        htmlTag.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+            themeIcon.textContent = '☀️';
+        } else {
+            themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', theme);
+    }
+
+    function getPreferredTheme() {
+        return localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlTag.getAttribute('data-theme');
+        setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    // Initialize on load
+    setTheme(getPreferredTheme());
+    </script>
+</body>
+</html>
